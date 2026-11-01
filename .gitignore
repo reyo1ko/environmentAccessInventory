@@ -1,0 +1,20 @@
+# Personal ledger backups and local data
+access-note-*.json
+backup*.json
+backups/
+private/
+local-data/
+
+# Credentials and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local outputs and dependencies
+node_modules/
+*.log
+*.zip
+.DS_Store
+Thumbs.db

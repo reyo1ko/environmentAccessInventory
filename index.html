@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Access Note — アカウント管理台帳</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Cpath d='M9 9h14v15H9z' fill='white'/%3E%3Cpath d='M12 13h8m-8 4h8m-8 4h5' stroke='%232563eb'/%3E%3C/svg%3E">
+<style>
+/* Tailwind-style utilities bundled locally; no install or external requests. */
+.flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-end{justify-content:flex-end}.font-bold{font-weight:700}.text-xs{font-size:12px;line-height:1.5}.text-sm{font-size:14px;line-height:1.5}.text-base{font-size:16px;line-height:1.5}.text-lg{font-size:18px;line-height:1.5}.mt-1{margin-top:4px}.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-6{margin-top:24px}.mb-2{margin-bottom:8px}h1,h2,h3,p{margin:0}button{background-image:none}input,textarea,select{font-size:14px}
+:root{font-family:Inter,'Yu Gothic UI',Meiryo,sans-serif;color:#243248;background:#f7f9fc;font-size:14px}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}button{transition:background .15s}button:hover{filter:brightness(.97)}.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}.sidebar{background:white;border-right:1px solid #e4e9f0;padding:32px 22px;display:flex;flex-direction:column;gap:30px}.brand{font-size:21px;font-weight:750;letter-spacing:-.7px;display:flex;gap:10px;align-items:center}.logo{background:#2563eb;color:white;width:34px;height:36px;border-radius:9px;display:grid;place-items:center}.muted{color:#748198}.eyebrow{font-size:12px;letter-spacing:.13em;font-weight:700;color:#8b97a9;margin-bottom:12px}.nav{display:flex;justify-content:space-between;align-items:center;width:100%;padding:11px 13px;background:none;border:0;border-radius:7px;color:#56637a;margin:3px 0;text-align:left}.nav.active{background:#edf3ff;color:#245fdb;font-weight:700}.count{font-size:12px;background:#f0f3f8;padding:2px 7px;border-radius:5px}.side-footer{margin-top:auto;font-size:12px;line-height:1.9;color:#8590a2}.main{padding:35px 42px;min-width:0;max-width:1600px;width:100%;margin:auto}.topbar{display:flex;justify-content:space-between;gap:20px;align-items:center}.btn{border:1px solid #dde4ee;background:white;padding:9px 13px;border-radius:7px;display:inline-flex;gap:7px;align-items:center;justify-content:center;font-weight:600;color:#536177;white-space:nowrap}.primary{background:#2563eb;color:white;border-color:#2563eb}.danger{color:#c24141}.small{font-size:12px;padding:5px 8px;font-weight:500}.heading{font-size:29px;font-weight:750;letter-spacing:-1px;margin:8px 0}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:30px 0 24px;border-bottom:1px solid #e2e8f0}.tabs{display:flex;gap:28px}.tab{border:0;background:transparent;padding:13px 0 17px;color:#7d879a;font-weight:600;border-bottom:2px solid transparent}.tab.active{color:#2563eb;border-bottom-color:#2563eb}.search{max-width:340px;width:100%;margin-bottom:12px}.input{width:100%;border:1px solid #dce3ed;border-radius:7px;background:white;padding:10px 12px;outline:none;color:#243248}.input:focus{border-color:#3b82f6;box-shadow:0 0 0 3px #eff6ff}.section-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 18px}.panel{background:white;border:1px solid #e1e7ef;border-radius:12px;margin-bottom:18px;overflow:hidden}.panel-head{padding:19px 23px;display:flex;gap:16px;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0f5}.badge{font-size:12px;font-weight:600;border-radius:5px;padding:4px 8px;background:#eef3fb;color:#527198;white-space:nowrap}.badge.prod{background:#fff2ed;color:#c56b43}.route-body{padding:23px;display:flex;gap:0;overflow-x:auto;align-items:stretch}.step{flex:1;min-width:230px;border:1px solid #e0e6ef;border-radius:9px;padding:16px;background:#fff}.step-number{width:24px;height:24px;border-radius:6px;display:inline-grid;place-items:center;background:#eff4ff;color:#356bdd;font-size:12px;font-weight:700;margin-right:7px}.arrow{align-self:center;color:#a0b2cc;font-size:24px;padding:0 13px}.step h3{font-size:16px;font-weight:700;margin:12px 0 3px}.mono{font-family:Consolas,'SFMono-Regular',monospace}.field-row{display:flex;gap:7px;align-items:center;margin-top:10px;min-width:0}.field-label{color:#8893a5;font-size:12px;min-width:48px}.value{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}.iconbtn{border:0;background:transparent;color:#8a99ae;border-radius:4px;padding:4px;display:inline-flex}.iconbtn:hover{background:#edf3ff;color:#2563eb}.iconbtn svg{width:15px;height:15px}.step-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #eef1f6}.note{background:#fafbfd;border-top:1px solid #edf0f5;padding:12px 23px;font-size:13px;color:#798599;white-space:pre-wrap}.account-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}.account-grid .step{min-width:0}.empty{padding:60px;text-align:center;border:1px dashed #cbd5e1;border-radius:12px;background:white}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#20334d;color:white;border-radius:9px;padding:12px 22px;box-shadow:0 8px 25px #0002;z-index:100}.toast[hidden]{display:none}dialog{border:1px solid #e2e8f0;border-radius:14px;padding:0;max-width:650px;width:calc(100% - 30px);max-height:90vh;color:#243248;box-shadow:0 25px 80px #182c4930}dialog::backdrop{background:#13253b60;backdrop-filter:blur(3px)}.dialog-head{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;border-bottom:1px solid #e6ebf2}.form-body{padding:23px 26px;overflow-y:auto;max-height:65vh}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.form-grid label{display:block;font-weight:600;font-size:13px}.form-grid .input{margin-top:7px;font-weight:400}.full{grid-column:1/-1}.dialog-foot{padding:18px 26px;border-top:1px solid #e6ebf2;display:flex;justify-content:flex-end;gap:10px}.editor-step{display:flex;align-items:center;gap:7px;margin:9px 0}.editor-step select{flex:1;min-width:0}.actions{display:flex;gap:9px;flex-wrap:wrap}.save-status{font-size:12px;color:#8492a5}.intro{line-height:1.8}.mobile-label{display:none}@media(min-width:1600px){.main{padding:45px 60px}}@media(max-width:1050px){.shell{grid-template-columns:190px 1fr}.sidebar{padding:25px 15px}.main{padding:25px}.topbar{align-items:flex-start;flex-direction:column}}@media(max-width:700px){.shell{display:block}.sidebar{padding:17px 20px;border-right:0;border-bottom:1px solid #e4e9f0;gap:15px}.sidebar nav{display:flex;gap:5px;overflow:auto}.sidebar .eyebrow,.side-footer,.brand-sub{display:none}.nav{white-space:nowrap;width:auto;gap:10px}.main{padding:24px 16px}.heading{font-size:25px}.toolbar{flex-direction:column;align-items:stretch;gap:10px;margin-top:20px}.search{max-width:none}.panel-head{padding:16px}.route-body{flex-direction:column;padding:16px}.arrow{transform:rotate(90deg);padding:5px}.step{min-width:0}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.actions{gap:6px}.btn{font-size:13px}.save-status{display:none}.account-grid{grid-template-columns:1fr}.tabs{gap:23px}}
+
+/* Compact connection workspace: shared hosts appear once in the table. */
+.shell{display:flex;flex-direction:column;min-height:100vh}.sidebar{order:1;padding:0 16px;border:0;background:transparent;display:block}.sidebar>div:first-child,.sidebar .eyebrow,.side-footer{display:none}.sidebar>div:nth-child(2){display:flex;align-items:center;gap:10px}.sidebar nav{display:flex;flex-wrap:wrap;gap:5px}.nav{width:auto;gap:10px;padding:6px 10px;margin:0;white-space:nowrap}.main{display:contents}.topbar{order:0;padding:10px 16px;flex-direction:row;align-items:center;gap:12px;background:white;border-bottom:1px solid #e1e7ef;margin-bottom:10px}.heading{font-size:18px;margin:0;letter-spacing:0}.btn{padding:6px 10px}.small{padding:5px 7px}.toolbar{order:2;margin:6px 16px 0;flex-direction:row;align-items:center}.tabs{gap:20px}.tab{padding:7px 0}.section-head{order:3;margin:8px 16px;gap:10px}.section-head h2{font-size:14px}.section-head #view-help:empty{display:none}#content{order:4;margin:0 16px}#sample-label{order:5;margin:8px 16px;font-size:12px}.route-list{border:1px solid #dde5ef;background:white;border-radius:6px;margin-bottom:10px;overflow:hidden}.route-line{display:flex;align-items:center;gap:6px;padding:3px 8px;border-bottom:1px solid #edf0f4}.route-line:last-child{border:0}.route-line.selected{background:#edf4ff}.route-select{display:flex;align-items:center;gap:16px;flex:1;min-width:0;border:0;background:none;text-align:left;padding:4px;color:#344760}.route-select strong{flex:0 0 235px;font-size:13px}.route-chain{display:flex;flex-wrap:wrap;font-size:13px;line-height:1.6;color:#526a87}.route-chain>span{white-space:normal}.route-select:hover{color:#2563eb}.table-wrap{border:1px solid #dde5ef;border-radius:6px;background:white}.access-table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px}.access-table th{background:#f0f4f9;color:#62738a;font-size:12px;font-weight:600;text-align:left;padding:7px 9px;border-bottom:1px solid #dde5ef}.access-table td{padding:6px 8px;vertical-align:middle;border-bottom:1px solid #e8edf4;overflow-wrap:anywhere}.access-table tr:last-child td{border-bottom:0}.access-table tbody tr:hover{background:#f7faff}.row-name{display:flex;align-items:center;line-height:1.5}.row-name strong{font-weight:650}.row-note{font-size:12px;line-height:1.4;color:#64748b}.row-actions{display:flex;gap:4px;flex-wrap:wrap}.quick-field{display:flex;align-items:center;gap:2px;min-width:0}.copy-value{border:1px solid transparent;background:transparent;padding:4px 2px;display:flex;align-items:center;justify-content:space-between;gap:5px;min-width:0;width:100%;text-align:left;color:#243248;border-radius:4px}.copy-value>span:first-child{overflow-wrap:anywhere;min-width:0;white-space:normal}.copy-value:hover{background:#eaf2ff;border-color:#c6dcff;color:#185bd1}.copy-mark{display:inline-flex;flex-shrink:0;color:#8a99ae}.copy-mark svg{width:13px;height:13px}.iconbtn{padding:5px}.badge{padding:3px 5px;font-size:12px}.step-number{flex-shrink:0;width:22px;height:22px}.selected-note{margin:0 0 7px;color:#526a87;font-size:13px;white-space:pre-wrap}.empty{padding:28px}
+@media(max-width:850px){.topbar{flex-wrap:wrap}.sidebar>div:nth-child(2){flex-wrap:wrap}.access-table{font-size:12px}.access-table td{padding:5px 4px}.route-select strong{flex-basis:180px}.row-actions .btn{font-size:12px}.access-table th{padding:6px 4px}}
+@media(max-width:600px){.route-select{display:block}.route-chain{margin-top:3px}.table-wrap{overflow-x:auto}.access-table{min-width:750px}.section-head{flex-wrap:wrap}.toolbar{gap:8px}.toolbar>span{display:none}}
+[hidden]{display:none!important}
+
+/* Optional information and maintenance controls stay collapsed during connection. */
+.shell:not(.details-mode) .detail-only,.shell:not(.editing-mode) .management{display:none!important}
+.toggle{display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:#536177;position:relative;padding:3px}.toggle input{position:absolute;opacity:0;width:1px;height:1px}.track{width:27px;height:16px;background:#cbd5e1;border-radius:10px;position:relative}.track:after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:white;border-radius:50%;transition:transform .15s}.toggle input:checked+.track{background:#2563eb}.toggle input:checked+.track:after{transform:translateX(11px)}.toggle input:focus-visible+.track{outline:3px solid #93c5fd;outline-offset:2px}.topbar{padding:5px 12px;margin-bottom:4px;min-height:36px}.heading{font-size:15px}.sidebar{padding:0 12px}.nav{padding:4px 8px;font-size:12px}.toolbar{margin:2px 12px 0}.tab{padding:4px 0;font-size:12px}.section-head{margin:4px 12px}.section-head h2{font-size:12px}.section-head #view-help,.save-status{display:none}#content{margin:0 12px}.access-table td{padding:2px 7px;line-height:1.3}.access-table th{padding:4px 7px}.copy-value{padding:3px 1px;min-height:26px}.iconbtn{padding:4px}.row-name{line-height:1.3}.row-name strong{font-size:13px}.badge{font-size:11px;padding:2px 4px}.route-line{padding:1px 7px}.route-select{padding:3px 2px}.route-select strong,.route-chain{font-size:12px}.route-list{margin-bottom:5px}.route-select strong{flex-basis:215px}.btn.small{padding:3px 6px}.step-number{width:19px;height:19px;font-size:11px}.shell:not(.editing-mode) #sample-label{display:none}.shell.editing-mode .access-table col:last-child{width:150px!important}.shell.editing-mode .row-actions{gap:3px}.shell:not(.editing-mode) .section-head .actions{display:none}.row-actions:empty{display:none}@media(max-width:600px){.topbar{padding:5px 10px}.access-table{min-width:640px}}
+
+.access-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:8px;align-items:start}.access-card{background:white;border:1px solid #dce4ef;border-radius:7px;padding:7px 10px;min-width:0}.access-card:hover{border-color:#9ebce7}.card-heading{display:flex;align-items:center;gap:6px;min-height:26px;margin-bottom:3px;padding-bottom:5px;border-bottom:1px solid #edf1f6}.card-heading h3{flex:1;min-width:0;font-size:13px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}.card-heading .step-number{margin-right:0}.card-field{display:grid;grid-template-columns:62px minmax(0,1fr);align-items:center;gap:4px;min-height:27px}.card-label{font-size:11px;color:#728198}.card-field .quick-field{min-width:0}.card-field .copy-value{font-size:13px}.card-details{border-top:1px solid #edf1f6;margin-top:4px;padding-top:4px}.card-details .row-note{white-space:pre-wrap;margin-top:4px}.card-edit{display:flex;gap:5px;justify-content:flex-end;border-top:1px solid #edf1f6;margin-top:5px;padding-top:5px}@media(min-width:1600px){.access-cards{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}}@media(max-width:630px){.access-cards{grid-template-columns:1fr}}
+
+/* Stable targets: reveal on the left, copy always on the right. */
+.quick-field{gap:5px}.reveal-btn,.reveal-space{width:28px;min-width:28px;height:28px;flex-shrink:0}.reveal-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid #d7e0ed;border-radius:4px;background:white;color:#60748e;cursor:pointer}.reveal-btn svg{width:15px;height:15px}.reveal-btn:hover,.reveal-btn[aria-pressed=true]{background:#e8f1ff;color:#195ac5;border-color:#9abce9}.copy-value{min-height:30px;flex:1;min-width:0;border-color:#edf1f6;background:#fbfcfe;padding:3px 6px;gap:8px}.copy-value:disabled{color:#7b8798;cursor:default}.copy-mark{width:22px;min-width:22px;justify-content:center;align-items:center}.copy-value.copied{background:#edf7f2;border-color:#86bba1}.copy-value.copied .copy-mark{color:#237047;font-weight:700}.card-field{min-height:32px}.card-label{font-size:12px}.card-category{color:#526b8c;font-size:12px;margin:0 0 3px}.connection-context{font-size:12px;color:#25568d;background:#eef5ff;padding:4px 6px;border-radius:3px;margin:3px 0;line-height:1.5}.connection-note{font-size:12px;color:#5f6e81;line-height:1.5;margin-top:5px;white-space:pre-wrap;border-top:1px solid #edf1f6;padding-top:4px}.route-summary{display:flex;gap:12px;align-items:center;justify-content:space-between;font-size:12px;margin-bottom:5px;color:#25568d}.route-guidance{font-size:12px;color:#60748e;margin:0 0 5px}.route-line.selected{box-shadow:inset 3px 0 #2563eb}.route-select{min-height:30px}.nav{min-height:30px}.nav.active{box-shadow:inset 0 -2px #2563eb}#copy-status{order:5;margin:7px 12px;color:#4b647e;font-size:12px;min-height:20px}.access-card{padding:7px 9px}.access-table td{padding:3px 6px}.access-table .quick-field{gap:3px}.access-table .reveal-space{display:none}.access-table .reveal-btn{width:25px;min-width:25px}.access-table col:nth-child(6){width:23%!important}
+.route-env{display:inline-block;font-size:11px;color:#456389;background:#eaf0f8;border-radius:3px;padding:1px 4px;margin-right:6px}.route-select strong{flex-basis:285px}
+
+.environment{margin-bottom:12px}.environment-heading{display:flex;align-items:center;gap:12px;border-bottom:1px solid #dce5f0;padding:4px 0;margin-bottom:7px}.environment-heading h3{font-size:14px;color:#254d7c}.environment-heading span{font-size:12px;color:#718197}.environment-stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:14px;align-items:start}.environment-stage{min-width:0}.environment-stage h4{font-size:12px;color:#62758e;margin:0 0 5px;font-weight:500}.environment-stage:not(:first-child) h4:before{content:'→';margin-right:7px;color:#2563eb}.stage-cards{display:grid;gap:6px}.environment .card-category{display:none}.branch-add{margin-top:6px;width:100%}.unassigned{border-top:1px dashed #d6dfeb;margin-top:8px;padding-top:5px}.unassigned h4{font-size:12px;color:#7c8797;margin:0 0 5px}.path-maintenance{font-size:12px;margin:10px 0}.path-maintenance summary{cursor:pointer;padding:6px}.path-maintenance .route-line{justify-content:space-between}.path-maintenance .route-line>span{flex:1}@media(max-width:650px){.environment-stages{grid-template-columns:1fr}.environment-heading span{display:none}}
+/* Content-sized cards: no full-width stages or unused branch columns. */
+.environment-flat,.access-cards{display:flex;flex-wrap:wrap;align-items:flex-start;gap:5px}
+.environment-flat>.access-card,.access-cards>.access-card{flex:0 1 280px;width:280px;max-width:100%;padding:5px 7px;border-radius:4px}
+.card-heading{min-height:22px;padding-bottom:3px;margin-bottom:2px;gap:4px}.card-heading h3{font-size:12px;line-height:1.35}.card-heading .badge{font-size:11px}.card-heading .step-number{width:18px;height:18px;font-size:11px}
+.card-field{grid-template-columns:60px minmax(0,1fr);gap:2px;min-height:26px}.card-label{font-size:12px}.card-field .copy-value{font-size:12px;min-height:26px;padding:2px 3px;gap:3px}.quick-field{gap:3px}.copy-mark{width:18px;min-width:18px}.reveal-btn,.reveal-space{width:24px;min-width:24px;height:24px}.reveal-space{display:none}
+.connection-context{background:none;padding:0;margin:2px 0 3px;font-size:11px;line-height:1.4;color:#526b88}.connection-note{font-size:11px;line-height:1.4;margin-top:3px;padding-top:3px}.card-category{font-size:11px;margin-bottom:2px}
+.environment{margin-bottom:7px}.environment-heading{padding:2px 0;margin-bottom:4px}.environment-heading h3{font-size:12px}.unassigned{margin-top:5px;padding-top:3px}.section-head{margin-top:3px;margin-bottom:3px}.environment-flat .card-edit{margin-top:3px;padding-top:3px}
+@media(max-width:310px){.environment-flat>.access-card,.access-cards>.access-card{flex-basis:100%;width:100%}}
+.tree-scroll{max-width:100%;overflow:auto}.tree-scene{position:relative;width:max-content;min-width:0;padding:3px 3px 3px 12px}.tree-scene>.tree-node+.tree-node{margin-top:8px}.tree-node{display:flex;align-items:center;gap:24px}.tree-card-slot{width:280px;flex:0 0 280px;position:relative;z-index:1}.tree-card-slot>.access-card{padding:5px 7px;border-radius:4px}.tree-children{display:flex;flex-direction:column;gap:6px}.tree-arrows{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}.tree-scene .card-category{display:none}
+@media(max-width:920px){.tree-node{flex-direction:column;gap:16px;align-items:flex-start}.tree-children{margin-left:16px;gap:16px}.tree-card-slot{flex-basis:auto;width:280px}.tree-scene{padding-left:12px}.tree-scene>.tree-node+.tree-node{margin-top:16px}}
+
+/* Many destinations share one group arrow instead of individual long edges. */
+.environment-groups{display:flex;flex-direction:column;gap:8px}.connection-group{min-width:0}.common-chain{display:flex;align-items:center;flex-wrap:wrap;gap:5px}.compact-node{width:280px;max-width:100%;flex:0 1 280px}.compact-node>.access-card,.destination-item>.access-card{padding:5px 7px;border-radius:4px}.chain-arrow{font-size:21px;color:#467bb8;flex:0 0 18px;text-align:center}.destination-group{min-width:0;margin-top:5px}.destination-heading{display:flex;align-items:center;gap:6px;min-height:26px;font-size:12px;color:#355a83}.group-arrow{font-size:22px;line-height:1}.destination-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),280px));gap:5px;align-items:start;border-left:2px solid #bdd0e9;padding-left:7px}.destination-item{min-width:0}.downstream{margin-top:4px;border:1px solid #dce5f0;border-radius:4px;background:#f8fafd}.downstream>summary{cursor:pointer;padding:5px 7px;font-size:12px;color:#355a83}.downstream[open]{padding-bottom:5px}.downstream .destination-group{margin:0 4px}.downstream .destination-grid{grid-template-columns:minmax(0,1fr);padding-left:4px}.downstream .destination-heading{flex-wrap:wrap}.environment-groups .card-category{display:none}.downstream>summary:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}@media(max-width:600px){.common-chain{align-items:flex-start}.chain-arrow{align-self:center}.destination-grid{grid-template-columns:minmax(0,280px)}}
+.destination-item:has(>.downstream[open]){grid-column:1/-1}.destination-item:has(>.downstream[open])>.access-card{width:280px;max-width:100%}.downstream[open] .destination-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),280px))}
+.path-flow-label{font-size:11px;color:#5b7190;margin:0 0 3px 2px}.path-start{width:102px;min-height:52px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:6px 8px;border:1px solid #96b4d8;border-radius:4px;background:#edf5ff;color:#254f80;font-size:12px;line-height:1.3}.path-start span{font-size:11px;color:#567397}.environment-heading span{font-size:11px;color:#63768e;margin-left:8px}.connection-group{padding:5px 0 7px;border-bottom:1px solid #dbe5ef}.connection-group:last-child{border-bottom:0}.destination-heading strong{font-weight:650}
+.direct-cards{display:flex;flex-wrap:wrap;gap:5px}.direct-cards>.access-card{width:280px;max-width:100%;padding:5px 7px;border-radius:4px}.direct-environment .connection-context{color:#355a83}.direct-environment .connection-context:before{content:'直接アクセス ／ '}
+.destination-panel{margin:6px 0 0 126px;border:1px solid #9ebcdb;border-radius:5px;background:#f4f8fd;max-width:calc(100% - 126px)}.destination-panel>summary{display:flex;align-items:center;gap:7px;min-height:34px;padding:6px 9px;cursor:pointer;color:#285580;font-size:12px;list-style:none}.destination-panel>summary::-webkit-details-marker{display:none}.destination-panel>summary:before{content:'▸';font-size:14px;transition:transform .15s}.destination-panel[open]>summary:before{transform:rotate(90deg)}.destination-panel[open] .open-label{display:none}.destination-panel:not([open]) .open-label{margin-left:auto;color:#4a6d92;font-size:11px}.destination-panel[open]{padding-bottom:7px}.destination-panel .destination-group{margin:0 8px}.destination-panel .destination-heading{min-height:auto;padding:0 0 4px;font-size:11px;color:#5b7190}.destination-panel>summary:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}@media(max-width:600px){.destination-panel{margin-left:12px;max-width:calc(100% - 12px)}}
+.detail-group{margin:5px 0 7px}.detail-group>h4{font-size:12px;color:#385d84;margin:0 0 4px;padding:3px 6px;border-left:3px solid #6c99ca;background:#e9f1fa}.detail-group .destination-grid{border-left:0;padding-left:0}
+/* Environment boundaries: each tone carries through its heading, route, and detail panel. */
+.environment{--env:#326a9e;--env-dark:#234f7c;--env-soft:#eef5fb;--env-line:#aac5dc;border:1px solid var(--env-line);border-radius:7px;background:linear-gradient(180deg,var(--env-soft),#fff 92px);padding:0 9px 8px;margin:10px 0 14px;box-shadow:0 1px 2px #1836530a}.environment-heading{margin:0 -9px 7px;padding:7px 10px;background:var(--env);border-radius:6px 6px 0 0;border-bottom:1px solid var(--env-dark);color:#fff}.environment-heading h3{color:#fff;font-size:14px}.environment-heading span{color:#e8f3ff}.environment .connection-group{border-color:color-mix(in srgb,var(--env-line),transparent 25%)}.environment .path-flow-label{color:var(--env-dark);font-weight:650}.environment .chain-arrow{color:var(--env)}.environment .destination-panel{border-color:var(--env-line);background:var(--env-soft)}.environment .destination-panel>summary{color:var(--env-dark)}.environment .destination-panel:not([open]) .open-label{color:var(--env-dark)}.environment .detail-group>h4{color:var(--env-dark);border-left-color:var(--env);background:color-mix(in srgb,var(--env-soft),white 25%)}.environment .destination-grid{border-left-color:var(--env-line)}.environment-tone-0{--env:#a64a3b;--env-dark:#803529;--env-soft:#fff2ee;--env-line:#e4b4aa}.environment-tone-1{--env:#2f7a69;--env-dark:#205a4c;--env-soft:#edf9f5;--env-line:#a9d5c9}.environment-tone-2{--env:#6554a5;--env-dark:#493b7d;--env-soft:#f3f0ff;--env-line:#c5bbe8}.environment-tone-3{--env:#24738c;--env-dark:#185469;--env-soft:#edf8fb;--env-line:#aad3df}@media(max-width:600px){.environment{margin:8px 0 11px;padding:0 6px 7px}.environment-heading{margin:0 -6px 6px;padding:6px 7px}.environment-heading span{display:block;margin:2px 0 0;font-size:10px}}
+.diagram-node{width:100%;border:1px solid #c8d6e7;border-radius:8px;background:white;padding:12px;text-align:left;color:#243248;display:grid;gap:7px;min-height:105px;box-shadow:0 2px 5px #2341}.diagram-node:hover{border-color:#2563eb;background:#f4f8ff}.diagram-node strong{font-size:14px}.diagram-node .node-address{font:12px Consolas,monospace;overflow-wrap:anywhere}.node-meta{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#64748b}.detail-route{padding:10px;background:#eff5fc;line-height:1.8;border-radius:6px;margin-bottom:12px}.detail-body .access-card{width:100%;max-width:none}.detail-body .card-category{display:block}.detail-body .card-field{margin:8px 0}.detail-body .copy-value{font-size:14px}.source-help{font-size:12px;color:#64748b;font-weight:400;line-height:1.6;margin-top:6px}.common-chain{gap:8px}.destination-panel{margin-left:16px;max-width:calc(100% - 16px)}
+#account-detail:not(.detail-editing) .management{display:none!important}.section-head #view-help{display:block;line-height:1.6}
+.diagram-node{min-height:78px;padding:9px 11px;gap:5px;border-radius:6px;box-shadow:none}.compact-node{width:220px;flex-basis:220px}.destination-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),220px))}.direct-cards>.diagram-node{width:220px;max-width:100%}.environment-heading>span{display:none}.optional-fields{border-top:1px solid #e2e8f0;padding-top:12px}.optional-fields>summary{cursor:pointer;color:#64748b;font-size:13px}.optional-fields>.form-grid{padding-top:14px}.path-maintenance>.btn{margin:8px}.diagram-node:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+#move-status{order:3;margin:6px 12px;padding:8px 12px;background:#edf8f1;border:1px solid #a5cfb5;border-radius:6px;color:#21583b;font-size:13px}#move-status[hidden]{display:none}.drag-help{font-size:12px;color:#526b88;margin:8px 0}.root-drop{border:1px dashed #9fb6d1;border-radius:6px;padding:10px;margin-top:7px;text-align:center;background:#f4f8fd}.diagram-node[draggable=true]{cursor:grab}.diagram-node.dragging{opacity:.45}.drop-allowed{outline:3px solid #25845d!important;background:#e8f8ef!important}.drop-blocked{outline:2px solid #c65952!important;background:#fff1ee!important}
+.environment>summary.environment-heading{cursor:pointer;list-style:none;user-select:none;margin-bottom:0}.environment>summary.environment-heading::-webkit-details-marker{display:none}.environment>summary.environment-heading:before{content:'▸';font-size:15px;transition:transform .15s}.environment[open]>summary.environment-heading:before{transform:rotate(90deg)}.environment>summary.environment-heading .environment-count{display:inline;margin-left:auto;font-size:12px;color:white}.environment:not([open]){padding-bottom:0}.environment:not([open])>summary{border-radius:6px}.environment-content{padding-top:8px}.environment>summary:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}.destination-title{font-size:12px;font-weight:600;padding:7px 9px;color:var(--env-dark)}.destination-panel{padding-bottom:7px}.destination-item:has(>.downstream){grid-column:1/-1}.destination-item:has(>.downstream)>.diagram-node{width:220px;max-width:100%}.downstream .destination-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),220px))}.downstream{padding-bottom:5px}
+
+/* Use the environment palette throughout the connection diagram. */
+.environment{background:var(--env-soft)}
+.environment .diagram-node{background:color-mix(in srgb,var(--env-soft),white 40%);border-color:var(--env-line);color:var(--env-dark)}
+.environment .diagram-node:hover{background:color-mix(in srgb,var(--env-soft),var(--env-line) 22%);border-color:var(--env)}
+.environment .diagram-node:focus-visible,.environment>summary:focus-visible{outline-color:var(--env)}
+.environment .node-meta,.environment .node-address,.environment .muted,.environment .unassigned h4{color:var(--env-dark)}
+.environment .badge,.environment .count{background:color-mix(in srgb,var(--env-line),white 45%);color:var(--env-dark)}
+.environment .destination-panel,.environment .downstream{background:var(--env-soft);border-color:var(--env-line)}
+.environment .destination-title,.environment .detail-group>h4{color:var(--env-dark)}
+.environment .detail-group>h4{background:color-mix(in srgb,var(--env-line),white 65%);border-left-color:var(--env)}
+.environment .destination-grid,.environment .unassigned,.environment .connection-group{border-color:var(--env-line)}
+.environment .chain-arrow{color:var(--env)}
+.environment .diagram-node.drop-allowed{outline:3px dashed var(--env)!important;background:color-mix(in srgb,var(--env-soft),var(--env-line) 30%)!important}
+
+/* Single connections continue right; branches stack below their source. */
+.environment .diagram-node,.environment .diagram-node:hover{background:#fff}
+.environment .common-chain{flex-wrap:nowrap;width:max-content;max-width:none;align-items:center}
+.environment .compact-node{width:220px;min-width:220px;flex:0 0 220px}
+.environment-content{overflow-x:auto;padding-bottom:4px}
+.environment .destination-grid{display:flex;flex-direction:column;align-items:stretch;gap:9px}
+.environment .destination-item{width:100%;min-width:0}
+.environment .destination-item>.connection-group{border:0;padding:0}
+.environment .destination-panel{margin:9px 0 0 16px;max-width:none;border-left:2px solid var(--env-line)}
+.environment .direct-cards,.environment .unassigned .access-cards{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.environment .direct-cards>.diagram-node,.environment .unassigned .access-cards>.diagram-node{width:220px;max-width:100%}
+
+.environment .diagram-node{padding:10px;cursor:default;text-align:left}
+.diagram-title{display:flex;align-items:center;justify-content:space-between;gap:5px;background:transparent;border:0;padding:0 0 8px;width:100%;color:inherit;text-align:left}
+.diagram-field{display:grid;grid-template-columns:64px minmax(0,1fr) 25px;align-items:center;gap:4px;min-height:29px;font-size:11px;border-top:1px solid #edf0f3;color:#5e6876}
+.diagram-value{font:12px Consolas,monospace;color:#263342;overflow-wrap:anywhere;min-width:0}
+.diagram-copy{display:grid;place-items:center;border:1px solid #dce2e9;border-radius:4px;background:#fff;padding:4px;color:#586779;min-height:25px}
+.diagram-copy:hover{background:#f3f5f8}.diagram-copy:disabled{opacity:.35;cursor:default}.diagram-copy .copy-mark{width:14px;min-width:14px}.diagram-copy svg{width:13px;height:13px}
+.environment .environment-add{background:#fff;border-color:var(--env-line);color:var(--env-dark);margin-left:6px}.environment .environment-empty{font-size:12px;color:var(--env-dark);padding:8px}.environment>summary.environment-heading{flex-wrap:wrap}
+
+.route-map{position:relative;width:max-content;min-width:100%;padding:10px 24px 20px 8px;isolation:isolate}
+.route-wires{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;color:var(--env);z-index:-1}
+.route-wires>path{fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.environment .route-map .connection-group{border:0;padding:0}
+.environment .route-map .common-chain{gap:36px;align-items:center}
+.route-map .chain-arrow{display:none}
+.environment .wire-branches{display:flex;flex-direction:column;gap:24px;margin:32px 0 0 32px}
+.wire-branch{min-width:0}.wire-root{width:220px;min-height:64px;background:#fff;border:1px solid var(--env-line);border-radius:6px;display:grid;place-items:center;color:var(--env-dark);font-weight:600}
+.card-login{margin-top:7px;border-top:2px solid var(--env-line,#e2e8f0);padding-top:3px}.credential-detail{margin-top:14px;border-top:1px solid #e2e8f0;padding-top:8px}.credential-detail h4{margin:4px 0}.credential-editor{display:grid;grid-template-columns:1fr 1fr;gap:10px;border:1px solid #dce3ed;border-radius:7px;padding:12px;margin:10px 0}.credential-editor .input{margin-top:5px}.add-card-login{width:100%;margin-top:7px}.environment .add-card-login{background:#fff;color:var(--env-dark);border-color:var(--env-line)}
+</style>
+</head>
+<body>
+<div class="shell" id="workspace">
+
+<main class="main"><header class="topbar"><div><h1 class="heading">アカウント管理台帳</h1></div><div class="actions"><label class="toggle"><input type="checkbox" id="edit-toggle"><span class="track"></span>編集</label><button class="btn management" id="export">↓ バックアップ</button><button class="btn management" id="import">↑ 復元</button><button class="btn management" id="category-add">＋ 環境を追加</button></div></header>
+<div class="section-head"><div><h2 class="text-lg font-bold" id="view-title"></h2><p class="muted text-xs mt-1" id="view-help"></p></div><div class="actions"><span class="save-status" id="save-status">保存済み</span><button class="btn small management" id="category-edit" hidden>環境名を変更</button><button class="btn small management" id="add-route">＋ 経路を追加</button></div></div>
+<div id="move-status" role="status" aria-live="polite" hidden></div><div id="content"></div><div id="copy-status" role="status" aria-live="polite">値・右端のマークでコピー ／ 左の目でパスワード表示</div><div class="muted text-xs mt-6" id="sample-label">初期データはすべて架空のサンプルです。入力内容はこのブラウザだけに保存され、HTMLには書き込まれません。</div>
+</main></div>
+<dialog id="editor"><form id="edit-form"><div class="dialog-head"><h2 class="text-lg font-bold" id="dialog-title"></h2><button type="button" class="btn small" id="close-dialog" aria-label="閉じる">✕</button></div><div class="form-body" id="form-body"></div><div class="dialog-foot"><button type="button" class="btn" id="cancel-dialog">キャンセル</button><button type="submit" class="btn primary">保存する</button></div></form></dialog>
+<dialog id="account-detail"><div class="dialog-head"><h2 class="text-lg">接続先の詳細</h2><button type="button" class="btn" id="detail-close" aria-label="詳細を閉じる">✕</button></div><div class="form-body detail-body" id="detail-body"></div></dialog>
+<input type="file" id="import-file" accept="application/json,.json" hidden><div class="toast" id="toast" role="status" hidden></div>
+<script>
+'use strict';
+const KEY='access-note-template-v1';
+// Fictional template data only. Personal entries are stored in this browser.
+const seed={
+  "version": 1,
+  "categories": [
+    "環境1",
+    "環境2",
+    "環境3",
+    "環境4"
+  ],
+  "accounts": [
+    {
+      "id": "p1",
+      "name": "PC1",
+      "category": "環境1",
+      "protocol": "RDP",
+      "host": "pc1",
+      "ip": "192.0.2.10",
+      "url": "",
+      "username": "user1",
+      "password": "SamplePass-01",
+      "note": "",
+      "account": "アカウント1"
+    },
+    {
+      "id": "p2",
+      "name": "PC2",
+      "category": "環境1",
+      "protocol": "RDP",
+      "host": "pc2",
+      "ip": "192.0.2.11",
+      "url": "",
+      "username": "user2",
+      "password": "SamplePass-02",
+      "note": "",
+      "account": "アカウント2"
+    },
+    {
+      "id": "p3",
+      "name": "VPN1",
+      "category": "環境1",
+      "protocol": "VPN",
+      "host": "vpn1",
+      "ip": "192.0.2.12",
+      "url": "",
+      "username": "user3",
+      "password": "SamplePass-03",
+      "note": "",
+      "account": "アカウント3"
+    },
+    {
+      "id": "p4",
+      "name": "PC3",
+      "category": "環境1",
+      "protocol": "RDP",
+      "host": "pc3",
+      "ip": "192.0.2.13",
+      "url": "",
+      "username": "user4",
+      "password": "SamplePass-04",
+      "note": "",
+      "account": "アカウント4"
+    },
+    {
+      "id": "p5",
+      "name": "DB1",
+      "category": "環境1",
+      "protocol": "SSH",
+      "host": "db1",
+      "ip": "192.0.2.14",
+      "url": "",
+      "username": "user5",
+      "password": "SamplePass-05",
+      "note": "",
+      "account": "アカウント5"
+    },
+    {
+      "id": "p7",
+      "name": "DB2",
+      "category": "環境1",
+      "protocol": "SSH",
+      "host": "db2",
+      "ip": "192.0.2.15",
+      "url": "",
+      "username": "user6",
+      "password": "SamplePass-07",
+      "note": "",
+      "account": "アカウント6"
+    },
+    {
+      "id": "p8",
+      "name": "DB3",
+      "category": "環境1",
+      "protocol": "SSH",
+      "host": "db3",
+      "ip": "192.0.2.16",
+      "url": "",
+      "username": "user7",
+      "password": "SamplePass-08",
+      "note": "",
+      "account": "アカウント7"
+    },
+    {
+      "id": "p6",
+      "name": "PC4",
+      "category": "環境1",
+      "protocol": "Web",
+      "host": "pc4",
+      "ip": "192.0.2.17",
+      "url": "https://pc4.example.com",
+      "username": "user8",
+      "password": "SamplePass-06",
+      "note": "",
+      "account": "アカウント8"
+    },
+    {
+      "id": "t1",
+      "name": "PC5",
+      "category": "環境2",
+      "protocol": "RDP",
+      "host": "pc5",
+      "ip": "192.0.2.18",
+      "url": "",
+      "username": "user9",
+      "password": "SamplePass-11",
+      "note": "",
+      "account": "アカウント9"
+    },
+    {
+      "id": "t2",
+      "name": "PC6",
+      "category": "環境2",
+      "protocol": "RDP",
+      "host": "pc6",
+      "ip": "192.0.2.19",
+      "url": "",
+      "username": "user10",
+      "password": "SamplePass-12",
+      "note": "",
+      "account": "アカウント10"
+    },
+    {
+      "id": "t3",
+      "name": "VPN2",
+      "category": "環境2",
+      "protocol": "VPN",
+      "host": "vpn2",
+      "ip": "192.0.2.20",
+      "url": "",
+      "username": "user11",
+      "password": "SamplePass-13",
+      "note": "",
+      "account": "アカウント11"
+    },
+    {
+      "id": "t4",
+      "name": "PC7",
+      "category": "環境2",
+      "protocol": "RDP",
+      "host": "pc7",
+      "ip": "192.0.2.21",
+      "url": "",
+      "username": "user12",
+      "password": "SamplePass-14",
+      "note": "",
+      "account": "アカウント12"
+    },
+    {
+      "id": "t5",
+      "name": "DB4",
+      "category": "環境2",
+      "protocol": "RDP",
+      "host": "db4",
+      "ip": "192.0.2.22",
+      "url": "",
+      "username": "user13",
+      "password": "SamplePass-15",
+      "note": "",
+      "account": "アカウント13"
+    },
+    {
+      "id": "s1",
+      "name": "PC8",
+      "category": "環境3",
+      "protocol": "RDP",
+      "host": "pc8",
+      "ip": "192.0.2.23",
+      "url": "",
+      "username": "user14",
+      "password": "SamplePass-21",
+      "note": "",
+      "account": "アカウント14"
+    },
+    {
+      "id": "s2",
+      "name": "PC9",
+      "category": "環境3",
+      "protocol": "RDP",
+      "host": "pc9",
+      "ip": "192.0.2.24",
+      "url": "",
+      "username": "user15",
+      "password": "SamplePass-22",
+      "note": "",
+      "account": "アカウント15"
+    },
+    {
+      "id": "s3",
+      "name": "VPN3",
+      "category": "環境3",
+      "protocol": "VPN",
+      "host": "vpn3",
+      "ip": "192.0.2.25",
+      "url": "",
+      "username": "user16",
+      "password": "SamplePass-23",
+      "note": "",
+      "account": "アカウント16"
+    },
+    {
+      "id": "s4",
+      "name": "PC10",
+      "category": "環境3",
+      "protocol": "RDP",
+      "host": "pc10",
+      "ip": "192.0.2.26",
+      "url": "",
+      "username": "user17",
+      "password": "SamplePass-24",
+      "note": "",
+      "account": "アカウント17"
+    },
+    {
+      "id": "s5",
+      "name": "DB5",
+      "category": "環境3",
+      "protocol": "Web",
+      "host": "db5",
+      "ip": "192.0.2.27",
+      "url": "https://db5.example.com",
+      "username": "user18",
+      "password": "SamplePass-25",
+      "note": "",
+      "account": "アカウント18"
+    },
+    {
+      "id": "s6",
+      "name": "DB6",
+      "category": "環境3",
+      "protocol": "Web",
+      "host": "db6",
+      "ip": "192.0.2.28",
+      "url": "https://db6.example.com",
+      "username": "user19",
+      "password": "SamplePass-26",
+      "note": "",
+      "account": "アカウント19"
+    },
+    {
+      "id": "v1",
+      "name": "PC11",
+      "category": "環境4",
+      "protocol": "Web",
+      "host": "pc11",
+      "ip": "192.0.2.29",
+      "url": "https://pc11.example.com",
+      "username": "user20",
+      "password": "SamplePass-31",
+      "note": "",
+      "account": "アカウント20"
+    },
+    {
+      "id": "v2",
+      "name": "PC12",
+      "category": "環境4",
+      "protocol": "Web",
+      "host": "pc12",
+      "ip": "192.0.2.30",
+      "url": "https://pc12.example.com",
+      "username": "user21",
+      "password": "SamplePass-32",
+      "note": "",
+      "account": "アカウント21"
+    }
+  ],
+  "routes": [
+    {
+      "id": "pr1",
+      "name": "DB1",
+      "category": "環境1",
+      "steps": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ],
+      "note": ""
+    },
+    {
+      "id": "pr3",
+      "name": "DB2",
+      "category": "環境1",
+      "steps": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p7"
+      ],
+      "note": ""
+    },
+    {
+      "id": "pr4",
+      "name": "DB3",
+      "category": "環境1",
+      "steps": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p8"
+      ],
+      "note": ""
+    },
+    {
+      "id": "pr2",
+      "name": "PC4",
+      "category": "環境1",
+      "steps": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p6"
+      ],
+      "note": ""
+    },
+    {
+      "id": "tr1",
+      "name": "DB4",
+      "category": "環境2",
+      "steps": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ],
+      "note": ""
+    },
+    {
+      "id": "sr1",
+      "name": "DB5",
+      "category": "環境3",
+      "steps": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "note": ""
+    },
+    {
+      "id": "sr2",
+      "name": "DB6",
+      "category": "環境3",
+      "steps": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s6"
+      ],
+      "note": ""
+    },
+    {
+      "id": "vr1",
+      "name": "PC11",
+      "category": "環境4",
+      "steps": [
+        "v1"
+      ],
+      "note": ""
+    },
+    {
+      "id": "vr2",
+      "name": "PC12",
+      "category": "環境4",
+      "steps": [
+        "v2"
+      ],
+      "note": ""
+    }
+  ]
+};
+let data=normalizeData(structuredClone(seed)),category='',selectedRoute='',editMode=false,editing=null,visible=new Set(),storageOK=true,lastCopied='',copySequence=0,branchTargets=[];
+const $=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function normalizeData(d){if(!d||!Array.isArray(d.accounts))return d;for(const a of d.accounts){if(typeof a.group!=='string')a.group='';if(typeof a.account!=='string')a.account='';if(a.credentials===undefined)a.credentials=[{id:'login-1',account:a.account,username:a.username||'',password:a.password||''}];}return d;}
+function loadData(storage=localStorage){const raw=storage.getItem(KEY);if(!raw)return normalizeData(structuredClone(seed));const saved=normalizeData(JSON.parse(raw));validate(saved);return saved;}
+try{data=loadData();}catch(e){storageOK=false;setTimeout(()=>toast('保存データを読み込めません。復元またはバックアップをご利用ください。'),300);}
+function validate(d){if(!d||d.version!==1||!Array.isArray(d.categories)||!Array.isArray(d.accounts)||!Array.isArray(d.routes))throw Error('形式が異なります');if(d.categories.some(x=>typeof x!=='string'||!x.trim())||new Set(d.categories).size!==d.categories.length)throw Error('カテゴリが不正です');for(const [arr,fields] of [[d.accounts,['id','name','category','protocol','host','ip','url','username','password','note']],[d.routes,['id','name','category','note']]]){if(new Set(arr.map(x=>x.id)).size!==arr.length)throw Error('IDが重複しています');for(const x of arr){if(fields.some(k=>typeof x[k]!=='string')||!x.id||!x.name||!d.categories.includes(x.category)||(x.group!==undefined&&typeof x.group!=='string')||(x.account!==undefined&&typeof x.account!=='string'))throw Error('項目が不正です');}}for(const a of d.accounts){if(a.credentials!==undefined&&(!Array.isArray(a.credentials)||!a.credentials.length||new Set(a.credentials.map(c=>c?.id)).size!==a.credentials.length||a.credentials.some(c=>!c||typeof c.id!=='string'||!c.id||['account','username','password'].some(k=>typeof c[k]!=='string'))))throw Error('アカウント情報が不正です');}for(const a of d.accounts)if(!['RDP','SSH','Web','VPN','その他'].includes(a.protocol))throw Error('接続方式が不正です');for(const r of d.routes)if(!Array.isArray(r.steps)||!r.steps.length||r.steps.some(id=>!d.accounts.some(a=>a.id===id)))throw Error('経路の接続先が不正です');}
+function save(){if(moveUndo&&JSON.stringify(data.routes)!==moveUndo.after)moveUndo=null;try{localStorage.setItem(KEY,JSON.stringify(data));storageOK=true;$('#save-status').textContent='保存済み · '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});}catch(e){storageOK=false;$('#save-status').textContent='未保存';toast('ブラウザに保存できません。バックアップで保存してください。');}if($('#storageLabel'))$('#storageLabel').textContent=storageOK?'データはこのPC内に保存されます':'バックアップでデータを保存してください';}
+let timer;function toast(t){$('#toast').textContent=t;$('#toast').hidden=false;clearTimeout(timer);timer=setTimeout(()=>$('#toast').hidden=true,3200);}
+const copyIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4"/></svg>';
+const eyeIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
+
+function quickField(a,key,label,credential){
+ const scope=credential?':'+credential.id:'',value=(credential||a)[key],shown=key!=='password'||visible.has(a.id+scope),tag=a.id+':'+key+scope,login=credential?' data-login="'+esc(credential.id)+'"':'';
+ return '<div class="quick-field" data-credential="'+esc(tag)+'">'+(key==='password'&&value?'<button class="reveal-btn" data-eye="'+esc(a.id)+'"'+login+' aria-label="'+esc(a.name)+'のパスワードを'+(shown?'隠す':'表示')+'" title="パスワードを'+(shown?'隠す':'表示')+'" aria-pressed="'+shown+'">'+eyeIcon+'</button>':'<span class="reveal-space" aria-hidden="true"></span>')+'<button class="copy-value mono '+(lastCopied===tag?'copied':'')+'" data-copy="'+esc(a.id)+'" data-field="'+key+'"'+login+' title="'+(key==='password'?label:esc(value||''))+'をコピー" aria-label="'+esc(a.name)+'の'+label+'をコピー" '+(!value?'disabled':'')+'><span>'+(value?(shown?esc(value):'••••••••'):'未登録')+'</span><span class="copy-mark" aria-hidden="true">'+(lastCopied===tag?'✓':copyIcon)+'</span></button></div>';
+}
+function connectionContext(i){
+ const r=data.routes.find(x=>x.id===selectedRoute);if(!r)return '';
+ const previous=i?data.accounts.find(a=>a.id===r.steps[i-1]):null;
+ return '<p class="connection-context">'+(i?'接続元：'+esc(previous.name)+' の画面':'接続元：手元のPC')+' → '+(i===r.steps.length-1?'接続先（目的地）':'踏み台 '+(i+1))+'</p>';
+}
+function accountRow(a,i,ordered){
+ const target=a.protocol==='Web'&&a.url?'url':a.ip?'ip':a.host?'host':'url';
+ return '<tr><td><div class="row-name">'+(ordered?'<span class="step-number">'+(i+1)+'</span>':'')+'<strong>'+esc(a.name)+'</strong></div>'+(ordered?connectionContext(i):'')+'<span class="muted text-xs">'+esc(a.category)+'</span>'+(a.note?'<div class="row-note">'+esc(a.note)+'</div>':'')+'</td><td><span class="badge">'+esc(a.protocol)+'</span></td><td>'+quickField(a,target,'接続先')+'</td><td>'+quickField(a,'host','ホスト名')+'</td><td>'+quickField(a,'username','ユーザ名')+'</td><td>'+quickField(a,'password','パスワード')+'</td><td><div class="row-actions">'+(a.protocol==='Web'&&a.url?'<button class="btn small primary" data-open="'+esc(a.id)+'">開く ↗</button>':'')+'<button class="btn small management" data-edit-account="'+esc(a.id)+'" aria-label="'+esc(a.name)+'を編集">編集</button><button class="btn small danger management" data-delete-account="'+esc(a.id)+'">削除</button></div></td></tr>';
+}
+function credentialsOf(a){return a.credentials||[{id:'login-1',account:a.account||'',username:a.username||'',password:a.password||''}];}
+function credentialDetails(a){return credentialsOf(a).map(c=>'<section class="credential-detail"><h4>'+esc(c.account||'アカウント')+'</h4>'+['account','username','password'].map((key,i)=>'<div class="card-field"><span class="card-label">'+['アカウント','ログイン名','パスワード'][i]+'</span>'+quickField(a,key,['アカウント','ログイン名','パスワード'][i],c)+'</div>').join('')+'</section>').join('');}
+function hideDetailPasswords(){for(const key of visible)if(key===detailAccount||key.startsWith(detailAccount+':'))visible.delete(key);}
+function accountCard(a,i,ordered){
+ const target=a.protocol==='Web'&&a.url?'url':a.ip?'ip':a.host?'host':'url';
+ const line=(key,label)=>'<div class="card-field"><span class="card-label">'+label+'</span>'+quickField(a,key,label)+'</div>';
+ return '<article class="access-card"><header class="card-heading">'+(ordered?'<span class="step-number">'+(i+1)+'</span>':'')+'<h3>'+esc(a.name)+'</h3><span class="badge">'+esc(a.protocol)+'</span>'+(a.protocol==='Web'&&a.url?'<button class="btn small primary" data-open="'+esc(a.id)+'">開く ↗</button>':'')+'</header><div class="card-category">'+esc(a.category)+'</div>'+(ordered?connectionContext(i):'')+line(target,target==='url'?'URL':target==='host'?'ホスト':'IP')+(target!=='host'&&a.host?line('host','ホスト名'):'')+credentialDetails(a)+(a.note?'<p class="connection-note">'+esc(a.note)+'</p>':'')+'<footer class="management card-edit"><button class="btn small" data-edit-account="'+esc(a.id)+'">編集</button><button class="btn small danger" data-delete-account="'+esc(a.id)+'">削除</button></footer></article>';
+}
+
+function removeAccount(id){
+ if(!data.accounts.some(a=>a.id===id))return;
+ data.routes=data.routes.flatMap(route=>{
+  const index=route.steps.indexOf(id);if(index<0)return [route];
+  if(index===0)return [];
+  // Preserve the valid prefix; never bypass a removed jump host.
+  const steps=route.steps.slice(0,index);
+  return [{...route,steps,name:data.accounts.find(a=>a.id===steps[steps.length-1]).name,note:''}];
+ });
+ data.accounts=data.accounts.filter(a=>a.id!==id);visible.delete(id);
+ if(lastCopied.startsWith(id+':')){lastCopied='';$('#copy-status').textContent='接続先を削除しました';}
+ selectedRoute='';
+}
+function environmentTree(env){
+ const roots=[];
+ for(const route of data.routes.filter(r=>r.category===env)){
+  let children=roots,path=[];
+  for(const id of route.steps){path=[...path,id];let node=children.find(n=>n.id===id);if(!node){node={id,path,children:[],notes:[]};children.push(node);}if(path.length===route.steps.length&&route.note&&!node.notes.includes(route.note))node.notes.push(route.note);children=node.children;}
+ }
+ return roots;
+}
+function treeLevels(roots){const levels=[];function visit(nodes,depth){for(const n of nodes){(levels[depth]??=[]).push(n);visit(n.children,depth+1);}}visit(roots,0);return levels;}
+function diagramCard(a,path){
+ const field=(key,label,credential)=>'<div class="diagram-field"><span>'+label+'</span><span class="diagram-value">'+esc((credential||a)[key]||'未登録')+'</span><button type="button" class="diagram-copy" data-copy="'+esc(a.id)+'" data-field="'+key+'"'+(credential?' data-login="'+esc(credential.id)+'"':'')+' '+(!(credential||a)[key]?'disabled':'')+' aria-label="'+esc(a.name)+'の'+label+'をコピー" title="'+label+'をコピー"><span class="copy-mark">'+(lastCopied===a.id+':'+key+(credential?':'+credential.id:'')?'✓':copyIcon)+'</span></button></div>';
+ return '<article class="diagram-node" data-wire-path="'+esc(JSON.stringify(path||[]))+'" draggable="'+editMode+'" data-detail="'+esc(a.id)+'" data-path="'+esc(JSON.stringify(path||[]))+'"><button type="button" class="diagram-title" data-detail="'+esc(a.id)+'" data-path="'+esc(JSON.stringify(path||[]))+'" title="詳細を表示"><strong>'+esc(a.name)+'</strong><span class="badge">'+esc(a.protocol)+'</span></button>'+field('host','ホスト名')+field('ip','IP')+credentialsOf(a).map(c=>'<div class="card-login">'+field('account','アカウント',c)+field('username','ログイン名',c)+'</div>').join('')+'<button type="button" class="btn small management add-card-login" data-add-login-to="'+esc(a.id)+'">＋ アカウントを追加</button>'+'</article>';
+}
+let detailAccount='',detailPath=[];
+function showDetail(id,path){detailAccount=id;detailPath=path;refreshDetail();$('#account-detail').showModal();}
+function refreshDetail(){$('#account-detail').classList.toggle('detail-editing',editMode);const a=data.accounts.find(a=>a.id===detailAccount);if(!a)return;$('#detail-body').innerHTML=(detailPath.length?'<div class="detail-route"><strong>接続経路</strong><br>手元のPC → '+detailPath.map(id=>esc(data.accounts.find(a=>a.id===id)?.name||'不明')).join(' → ')+'</div>':'<p class="detail-route">経路未設定：編集から接続元を設定してください。</p>')+accountCard(a,0,false)+(detailPath.length?'<button class="btn small management branch-add" data-detail-branch>＋ この先に接続先を追加</button>':'');}
+function treeCard(node,env){if(!node.id)return '<div class="wire-root" data-wire-path="[]">手元のPC</div>';const a=data.accounts.find(a=>a.id===node.id);const index=branchTargets.push({category:env,steps:node.path})-1;return diagramCard(a,node.path);}
+function sourceOptions(id){const paths=new Map();for(const a of data.accounts){if(a.id!==id&&!data.routes.some(r=>r.steps.includes(a.id)))paths.set(JSON.stringify([a.id]),[a.id]);}for(const r of data.routes){r.steps.forEach((target,i)=>{const path=r.steps.slice(0,i+1);if(path.includes(id))return;paths.set(JSON.stringify(path),path);});}return (id?'<option value="keep">現在の経路を維持</option>':'')+'<option value="[]">手元のPC（直接アクセス）</option>'+Array.from(paths).filter(([,path])=>!id||sourceAllowed(id,path)).map(([key,path])=>'<option value="'+esc(key)+'">'+esc(path.map(id=>data.accounts.find(a=>a.id===id).name).join(' → '))+'</option>').join('');}
+function sourceAllowed(id,prefix){
+ if(!data.accounts.some(a=>a.id===id)||!Array.isArray(prefix)||new Set(prefix).size!==prefix.length||prefix.some(x=>!data.accounts.some(a=>a.id===x)))return false;
+ const descendants=new Set([id]);let changed=true;while(changed){changed=false;for(const r of data.routes)for(let i=0;i<r.steps.length-1;i++)if(descendants.has(r.steps[i])&&!descendants.has(r.steps[i+1])){descendants.add(r.steps[i+1]);changed=true;}}
+ return !prefix.some(x=>descendants.has(x));
+}
+function setAccountSource(id,source){if(source==='keep')return;const prefix=JSON.parse(source);if(!sourceAllowed(id,prefix))throw Error('自分自身や配下の接続先は接続元にできません');const a=data.accounts.find(a=>a.id===id);let found=false;data.routes=data.routes.map(r=>{const pos=r.steps.indexOf(id);if(pos<0)return r;found=true;return {...r,category:a.category,steps:[...prefix,...r.steps.slice(pos)]};});if(!found)data.routes.push({id:crypto.randomUUID(),name:a.name,category:a.category,steps:[...prefix,id],note:''});}
+let dragAccount='',dragSuppressedUntil=0,moveUndo=null;
+function canDropAccount(id,prefix){const a=data.accounts.find(a=>a.id===id);return !!a&&sourceAllowed(id,prefix)&&prefix.every(x=>data.accounts.find(a=>a.id===x).category===a.category);}
+function moveAccount(id,prefix){
+ if(!canDropAccount(id,prefix))return false;
+ const before=JSON.stringify(data.routes);setAccountSource(id,JSON.stringify(prefix));const after=JSON.stringify(data.routes);if(before===after)return false;
+ moveUndo={before,after};save();render();toast('接続元を変更しました（後続も移動）');return true;
+}
+function undoMove(){if(!moveUndo||JSON.stringify(data.routes)!==moveUndo.after){moveUndo=null;render();return false;}data.routes=JSON.parse(moveUndo.before);moveUndo=null;save();render();toast('移動を元に戻しました');return true;}
+function dropInfo(target){const node=target.closest('.diagram-node');if(node)return {element:node,prefix:JSON.parse(node.dataset.path).length?JSON.parse(node.dataset.path):[node.dataset.detail]};const root=target.closest('[data-drop-root]');return root?{element:root,prefix:[]}:null;}
+function clearDragStyles(){document.querySelectorAll('.drop-allowed,.drop-blocked').forEach(el=>el.classList.remove('drop-allowed','drop-blocked'));}
+document.addEventListener('dragstart',e=>{const node=e.target.closest('.diagram-node');if(!editMode||!node){return;}dragAccount=node.dataset.detail;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',dragAccount);node.classList.add('dragging');});
+document.addEventListener('dragover',e=>{if(!dragAccount||!editMode)return;const info=dropInfo(e.target);clearDragStyles();if(!info)return;const allowed=canDropAccount(dragAccount,info.prefix);info.element.classList.add(allowed?'drop-allowed':'drop-blocked');e.dataTransfer.dropEffect=allowed?'move':'none';if(allowed)e.preventDefault();});
+document.addEventListener('dragleave',e=>{const info=dropInfo(e.target);if(info&&!info.element.contains(e.relatedTarget))info.element.classList.remove('drop-allowed','drop-blocked');});
+document.addEventListener('drop',e=>{if(!dragAccount||!editMode)return;e.preventDefault();const id=dragAccount,info=dropInfo(e.target);dragAccount='';dragSuppressedUntil=Date.now()+350;clearDragStyles();if(!info||!canDropAccount(id,info.prefix)){toast('同じ環境の接続先へ移動してください。自分自身・配下への移動はできません');return;}moveAccount(id,info.prefix);});
+document.addEventListener('dragend',()=>{dragAccount='';dragSuppressedUntil=Date.now()+350;clearDragStyles();document.querySelectorAll('.dragging').forEach(el=>el.classList.remove('dragging'));});
+function treeTable(levels){return '<div class="table-wrap"><table class="access-table"><thead><tr><th>接続先 / 接続元</th><th>方式</th><th>IP / URL</th><th class="detail-only">ホスト名</th><th>ユーザ名</th><th>パスワード</th><th>操作</th></tr></thead><tbody>'+levels.flat().map(n=>{const a=data.accounts.find(a=>a.id===n.id),previous=n.path.length>1?data.accounts.find(a=>a.id===n.path[n.path.length-2]):null;return accountRow(a,0,false).replace('</strong></div>','</strong></div><p class="connection-context">'+n.path.length+'：'+(previous?esc(previous.name):'手元のPC')+' から接続</p>');}).join('')+'</tbody></table></div>';}
+const closedEnvironments=new Set();
+function treeNodeMarkup(node,env){
+ const chain=[node];let last=node;
+ while(last.children.length===1){last=last.children[0];chain.push(last);}
+ return '<section class="connection-group"><div class="common-chain">'+chain.map((n,i)=>(i?'<span class="chain-arrow" aria-label="次に接続">→</span>':'')+'<div class="compact-node">'+treeCard(n,env)+'</div>').join('')+'</div>'+branchGrid(last,env)+'</section>';
+}
+function branchGrid(parent,env){if(!parent.children.length)return '';return '<div class="wire-branches">'+parent.children.map(child=>'<div class="wire-branch">'+treeNodeMarkup(child,env)+'</div>').join('')+'</div>';}
+function wirePath(source,target){const sx=source.x+source.width/2,sy=source.y+source.height/2,ty=target.y+target.height/2;if(target.x>=source.x+source.width&&Math.abs(ty-sy)<16)return 'M '+(source.x+source.width)+' '+sy+' H '+target.x;const trunk=target.x-18;return 'M '+sx+' '+(source.y+source.height)+' V '+(source.y+source.height+14)+' H '+trunk+' V '+ty+' H '+target.x;}
+let wireFrame=0,wireObserver;
+function scheduleWires(){if(typeof requestAnimationFrame!=='function')return;cancelAnimationFrame(wireFrame);wireFrame=requestAnimationFrame(drawWires);}
+function drawWires(){document.querySelectorAll('.route-map').forEach(map=>{if(!map.closest('.environment').open)return;const svg=map.querySelector('.route-wires'),bounds=map.getBoundingClientRect(),nodes=new Map();map.querySelectorAll('[data-wire-path]').forEach(el=>{const rect=el.getBoundingClientRect();nodes.set(el.dataset.wirePath,{x:rect.left-bounds.left,y:rect.top-bounds.top,width:rect.width,height:rect.height});});const marker=svg.dataset.marker;let paths='';for(const [key,target] of nodes){const path=JSON.parse(key);if(!path.length)continue;const parent=nodes.get(JSON.stringify(path.slice(0,-1)));if(parent)paths+='<path d="'+wirePath(parent,target)+'" marker-end="url(#'+marker+')"/>';}
+ svg.setAttribute('width',map.scrollWidth);svg.setAttribute('height',map.scrollHeight);svg.innerHTML='<defs><marker id="'+marker+'" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8Z" fill="currentColor" stroke="none"/></marker></defs>'+paths;
+});}
+if(typeof window!=='undefined')window.addEventListener('resize',scheduleWires);
+document.addEventListener('toggle',e=>{const env=e.target.dataset?.environment;if(env===undefined||e.target.isConnected===false)return;if(e.target.open)closedEnvironments.delete(env);else closedEnvironments.add(env);scheduleWires();},true);
+function environmentSummary(env){const routes=data.routes.filter(r=>r.category===env);if(!routes.length)return '接続元を登録すると経路を表示します';if(routes.every(r=>r.steps.length===1))return '踏み台不要 ／ 直接アクセス';return [...new Set(routes.map(r=>r.steps.map(id=>data.accounts.find(a=>a.id===id).protocol).join(' → ')))].join(' ／ ');}
+function environmentView(env){
+ const roots=environmentTree(env),levels=treeLevels(roots),used=new Set(levels.flat().map(n=>n.id));
+ const unassigned=data.accounts.filter(a=>a.category===env&&!used.has(a.id));
+
+ const direct=roots.length>0&&roots.every(n=>!n.children.length);
+ const tone='environment-tone-'+data.categories.indexOf(env);
+ return '<details class="environment '+tone+' '+(direct?'direct-environment':'')+'" data-environment="'+esc(env)+'" '+(closedEnvironments.has(env)?'':'open')+'><summary class="environment-heading"><h3>'+esc(env)+'</h3><span class="environment-count">'+data.accounts.filter(a=>a.category===env).length+'件</span><button type="button" class="btn small management environment-add" data-add-in-environment="'+esc(env)+'" aria-label="'+esc(env)+'に接続先を追加">＋ 接続先を追加</button></summary><div class="environment-content">'+(!roots.length&&!unassigned.length?'<p class="environment-empty">接続先を追加してください。接続元は後から設定できます。</p>':'')+(levels.length?'<div class="route-map"><svg class="route-wires" data-marker="wire-arrow-'+data.categories.indexOf(env)+'" aria-hidden="true"></svg>'+treeNodeMarkup({id:null,path:[],children:roots},env)+'</div>':'')+(unassigned.length?'<div class="unassigned"><h4>経路未設定</h4><div class="access-cards">'+unassigned.map(a=>diagramCard(a,[])).join('')+'</div></div>':'')+'</div></details>';
+}
+function openBranch(index){
+ const branch=branchTargets[index];if(!branch)return;
+ const choices=data.accounts.filter(a=>!branch.steps.includes(a.id));if(!choices.length){toast('先に新しい接続先を登録してください');return;}
+ editing={kind:'branch',branch};
+ $('#dialog-title').textContent='接続先をつなぐ';
+ $('#form-body').innerHTML='<p class="connection-context">'+esc(branch.category)+'：'+branch.steps.map(id=>esc(data.accounts.find(a=>a.id===id).name)).join(' → ')+' → 追加する接続先</p><label>接続先<select class="input" name="target" required>'+choices.map(a=>'<option value="'+esc(a.id)+'">'+esc(a.name)+' / '+esc(a.category)+'</option>').join('')+'</select></label><label>接続時のメモ<textarea class="input" name="note" rows="2"></textarea></label>';
+ $('#editor').showModal();
+}
+function addBranch(branch,target,note){
+ if(!data.accounts.some(a=>a.id===target)||branch.steps.includes(target))throw Error('接続先を確認してください');
+ const steps=[...branch.steps,target];
+ if(data.routes.some(r=>r.category===branch.category&&steps.every((id,i)=>r.steps[i]===id)))return false;
+ data.routes.push({id:crypto.randomUUID(),name:data.accounts.find(a=>a.id===target).name,category:branch.category,steps,note});return true;
+}
+function render(){
+ $('#workspace').classList.toggle('editing-mode',editMode);
+ category='';const rs=data.routes;
+ $('#view-title').textContent='すべての接続先';$('#view-help').textContent='各行のボタンでコピー ／ 名前をクリックすると詳細';
+ $('#category-edit').hidden=false;$('#add-route').hidden=false;
+ branchTargets=[];
+ const envs=data.categories;
+ const moveStatus=$('#move-status');if(moveUndo&&JSON.stringify(data.routes)!==moveUndo.after)moveUndo=null;moveStatus.hidden=!moveUndo;moveStatus.innerHTML=moveUndo?'接続元を変更しました <button class="btn small" data-undo-move>元に戻す</button>':'';
+ const management=editMode?'<details class="path-maintenance" id="advanced-routes"><summary>経路の詳細設定</summary>'+rs.map(r=>'<div class="route-line"><span>'+r.steps.map(id=>esc(data.accounts.find(a=>a.id===id).name)).join(' → ')+'</span><button class="btn small" data-edit-route="'+esc(r.id)+'">編集</button><button class="btn small danger" data-delete-route="'+esc(r.id)+'">削除</button></div>').join('')+'</details>':'';
+ const addRouteButton=$('#add-route');$('#content').innerHTML=(editMode?'<div class="drag-help">カードを接続元にしたいカードへドラッグ（同じ環境内・後続も移動）<div class="root-drop" data-drop-root>手元のPCへ直接つなぐ：ここにドロップ</div></div>':'')+envs.map(environmentView).join('')+management||'<div class="empty">接続先を追加してください。</div>';if(editMode)$('#advanced-routes').append(addRouteButton);else $('.section-head .actions').append(addRouteButton);scheduleWires();if(typeof ResizeObserver==='function'){if(!wireObserver)wireObserver=new ResizeObserver(scheduleWires);wireObserver.disconnect();document.querySelectorAll('.route-map').forEach(map=>wireObserver.observe(map));} 
+
+}
+function options(list,value){return list.map(x=>`<option value="${esc(x)}" ${x===value?'selected':''}>${esc(x)}</option>`).join('');}
+function input(name,label,value='',full=false,type='text'){return `<label class="${full?'full':''}">${label}<input class="input" name="${name}" type="${type}" value="${esc(value)}" ${name==='name'?'required':''}></label>`;}
+function openEditor(kind,id,environment){editing={kind,id};const a=(kind==='account'?data.accounts:data.routes).find(x=>x.id===id)||{category:environment||data.categories[0]||'',protocol:'RDP',steps:[]};$('#dialog-title').textContent=(kind==='account'?'接続先':'接続経路')+(id?'を編集':'を追加');$('#form-body').innerHTML=`<div class="form-grid">${input('name',kind==='account'?'接続先名 *':'用途・経路名 *',a.name,true)}<label>カテゴリ<select name="category" class="input">${options(!id&&environment?[environment]:data.categories,a.category)}</select></label>${kind==='account'?`<label>接続方式<select name="protocol" class="input">${options(['RDP','SSH','Web','VPN','その他'],a.protocol)}</select></label>${input('host','ホスト名',a.host)}${input('ip','IPアドレス',a.ip)}${input('url','URL',a.url,true)}<section class="full"><h3 class="text-sm">アカウント</h3><div id="credential-rows">${credentialsOf(a).map(credentialEditorRow).join('')}</div><button type="button" class="btn small" data-add-login>＋ アカウントを追加</button></section>`:`<div class="full"><label>接続する順番 *</label><p class="muted text-xs mt-2">登録済みの接続先を選び、↑ ↓で順番を変更できます。</p><div id="route-steps"></div><button class="btn small mt-2" type="button" id="step-add">＋ ステップを追加</button></div>`}<label class="full">メモ<textarea class="input" name="note" rows="3">${esc(a.note||'')}</textarea></label></div>`;if(kind==='account'&&id){$('#form-body .form-grid').insertAdjacentHTML('afterbegin','<label class="full">接続元<select class="input" name="source">'+sourceOptions(id)+'</select><p class="source-help">手元のPC、または既存の接続経路を選択します。変更すると、この接続先以降の経路も新しい接続元につなぎ直します。</p></label>');}if(kind==='account')simplifyAccountForm();if(kind==='route'){(a.steps.length?a.steps:[data.accounts[0]?.id]).filter(Boolean).forEach(addStep);}$('#editor').showModal();}
+function credentialEditorRow(c={id:crypto.randomUUID(),account:'',username:'',password:''}){return '<div class="credential-editor"><input type="hidden" name="credential-id" value="'+esc(c.id)+'">'+input('credential-account','アカウント',c.account)+input('credential-username','ログイン名',c.username)+input('credential-password','パスワード',c.password,false,'password')+'<button type="button" class="btn small" data-toggle-login-password>表示</button><button type="button" class="btn small danger" data-remove-login>削除</button></div>';}
+function readCredentials(f){const ids=f.getAll('credential-id');if(!ids.length)return [{id:'login-1',account:f.get('account')||'',username:f.get('username')||'',password:f.get('password')||''}];return ids.map((id,i)=>({id,account:f.getAll('credential-account')[i]||'',username:f.getAll('credential-username')[i]||'',password:f.getAll('credential-password')[i]||''}));}
+function simplifyAccountForm(){
+ const grid=$('#form-body .form-grid');const details=document.createElement('details');details.className='full optional-fields';details.innerHTML='<summary>補足情報（ホスト名・メモ）</summary><div class="form-grid"></div>';grid.append(details);
+ for(const name of ['host','note'])details.querySelector('.form-grid').append(grid.querySelector('[name="'+name+'"]').closest('label'));
+ const sync=()=>{const web=grid.querySelector('[name="protocol"]').value==='Web';grid.querySelector('[name="url"]').closest('label').hidden=!web;grid.querySelector('[name="ip"]').closest('label').hidden=web;};grid.querySelector('[name="protocol"]').addEventListener('change',sync);sync();
+}
+function addStep(id){const row=document.createElement('div');row.className='editor-step';row.innerHTML=`<select class="input" name="step" aria-label="経路の接続先" required>${data.accounts.map(a=>`<option value="${esc(a.id)}" ${a.id===id?'selected':''}>${esc(a.name)} — ${esc(a.category)}</option>`).join('')}</select><button type="button" class="btn small" data-move="up" aria-label="前に移動">↑</button><button type="button" class="btn small" data-move="down" aria-label="後ろに移動">↓</button><button type="button" class="btn small danger" data-remove-step aria-label="ステップを削除">×</button>`;$('#route-steps').append(row);}
+async function copy(t,a,key,credential){
+ if(!t){toast('コピーする値がありません');return;}
+ const attempt=++copySequence;
+ try{await navigator.clipboard.writeText(t);}catch{
+  const focused=document.activeElement,el=document.createElement('textarea');el.value=t;el.style.cssText='position:fixed;opacity:0';document.body.append(el);el.select();let ok=false;
+  try{ok=document.execCommand('copy');}catch{}finally{el.remove();focused?.focus();}
+  if(!ok){toast('コピーできませんでした。表示した値を選択してコピーしてください。');return;}
+ }
+ if(attempt!==copySequence)return;
+ lastCopied=a.id+':'+key+(credential?':'+credential.id:'');
+ const labels={ip:'IP',host:'ホスト名',url:'URL',account:'アカウント',username:'ログイン名',password:'パスワード',target:'接続先'};
+ const message=a.category+' / '+a.name+(credential?' / '+(credential.account||credential.username||'アカウント'):'')+'：'+labels[key]+'をコピーしました';
+ $('#copy-status').textContent=message;
+ document.querySelectorAll('[data-copy]').forEach(b=>{const active=b.dataset.copy+':'+b.dataset.field+(b.dataset.login?':'+b.dataset.login:'')===lastCopied;b.classList.toggle('copied',active);b.querySelector('.copy-mark').innerHTML=active?'✓':copyIcon;});
+ toast(message);
+}
+function download(name,text,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;if('addLoginTo'in d){$('#account-detail').close();openEditor('account',d.addLoginTo);$('#credential-rows').insertAdjacentHTML('beforeend',credentialEditorRow());return;}if('addLogin'in d){$('#credential-rows').insertAdjacentHTML('beforeend',credentialEditorRow());return;}if('removeLogin'in d){if($('#credential-rows').children.length===1){toast('アカウントは1件以上必要です');return;}b.closest('.credential-editor').remove();return;}if('toggleLoginPassword'in d){const field=b.closest('.credential-editor').querySelector('[name="credential-password"]');field.type=field.type==='password'?'text':'password';b.textContent=field.type==='password'?'表示':'隠す';return;}if('addInEnvironment'in d){e.preventDefault();if(data.categories.includes(d.addInEnvironment)){closedEnvironments.delete(d.addInEnvironment);render();openEditor('account',undefined,d.addInEnvironment);}return;}if('detailBranch'in d){const a=data.accounts.find(a=>a.id===detailAccount);const index=branchTargets.push({category:a.category,steps:detailPath})-1;$('#account-detail').close();openBranch(index);}if('undoMove'in d)undoMove();if(d.detail&&Date.now()>=dragSuppressedUntil)showDetail(d.detail,JSON.parse(d.path));if('branch'in d)openBranch(Number(d.branch));if('clearRoute'in d){selectedRoute='';render();}if(d.selectRoute){selectedRoute=selectedRoute===d.selectRoute?'':d.selectRoute;render();}if(d.copy){const a=data.accounts.find(x=>x.id===d.copy);const credential=d.login?credentialsOf(a).find(c=>c.id===d.login):undefined;if(d.login&&!credential)return;copy(d.field==='target'?(a.ip||a.host||a.url):(credential||a)[d.field],a,d.field,credential);}if(d.eye){const scope=d.eye+(d.login?':'+d.login:'');visible.has(scope)?visible.delete(scope):visible.add(scope);render();if($('#account-detail').open)refreshDetail();Array.from(document.querySelectorAll('[data-eye]')).find(x=>x.dataset.eye===d.eye&&(x.dataset.login||'')===(d.login||''))?.focus();}if(d.editAccount){$('#account-detail').close();}if(d.editAccount)openEditor('account',d.editAccount);if(d.editRoute)openEditor('route',d.editRoute);if(d.open){const a=data.accounts.find(x=>x.id===d.open);try{const u=new URL(a.url);if(!['https:','http:'].includes(u.protocol))throw Error();window.open(u.href,'_blank','noopener,noreferrer');}catch{toast('http:// または https:// で始まるURLを入力してください');}}if(d.deleteAccount){
+ const account=data.accounts.find(a=>a.id===d.deleteAccount);if(!account)return;
+ const refs=data.routes.filter(r=>r.steps.includes(account.id));
+ const downstream=refs.some(r=>r.steps.indexOf(account.id)<r.steps.length-1);
+ const message='「'+account.name+'」を削除しますか？'+(refs.length?'\n関連する経路も自動で整理します。':'')+(downstream?'\nこの接続先より先への経路は解除します。後続の接続先情報は残り、ほかに経路がなければ「経路未設定」に表示します。':'');
+ if(confirm(message)){$('#account-detail').close();removeAccount(account.id);save();render();toast('「'+account.name+'」を削除しました');}
+}if(d.deleteRoute&&confirm('この経路を削除しますか？ 接続先の情報は残ります。')){data.routes=data.routes.filter(r=>r.id!==d.deleteRoute);save();render();}if(d.move){const row=b.parentElement;if(d.move==='up'&&row.previousElementSibling)row.before(row.previousElementSibling);if(d.move==='down'&&row.nextElementSibling)row.after(row.nextElementSibling);}if('removeStep'in d)b.parentElement.remove();if(b.id==='step-add')addStep(data.accounts[0]?.id);if(b.id==='form-eye'){const el=$('[name="password"]');el.type=el.type==='password'?'text':'password';b.textContent=el.type==='password'?'表示':'隠す';}});
+$('#edit-form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);if(editing.kind==='branch'){if(!addBranch(editing.branch,f.get('target'),f.get('note'))){toast('この接続先はすでにつながっています');return;}save();render();$('#editor').close();toast('接続先を追加しました');return;}const item=Object.fromEntries(f);const source=item.source;delete item.source;if(editing.kind==='account'){item.credentials=readCredentials(f);for(const key of ['credential-id','credential-account','credential-username','credential-password'])delete item[key];Object.assign(item,{account:item.credentials[0].account,username:item.credentials[0].username,password:item.credentials[0].password});}item.name=item.name.trim();if(!item.name){toast('名前を入力してください');return;}if(editing.kind==='account'){if(item.url){try{const u=new URL(item.url);if(!['https:','http:'].includes(u.protocol))throw Error();}catch{toast('URLは http:// または https:// から入力してください');return;}}}else{item.steps=f.getAll('step');delete item.step;if(!item.steps.length){toast('接続先を1つ以上追加してください');return;}}item.id=editing.id||crypto.randomUUID();const list=editing.kind==='account'?data.accounts:data.routes;const i=list.findIndex(x=>x.id===item.id);if(i>=0)list[i]=item;else list.push(item);if(editing.kind==='account'&&editing.id)setAccountSource(item.id,source);save();render();$('#editor').close();toast('保存しました');});
+$('#detail-close').onclick=()=>{$('#account-detail').close();hideDetailPasswords();};$('#account-detail').addEventListener('close',()=>{hideDetailPasswords();});
+$('#edit-toggle').onchange=e=>{editMode=e.target.checked;render();};$('#add-route').onclick=()=>{if(!data.accounts.length){toast('先に接続先を追加してください');return;}openEditor('route');};$('#close-dialog').onclick=$('#cancel-dialog').onclick=()=>$('#editor').close();
+$('#category-add').onclick=()=>{const name=prompt('新しい環境名');if(!name?.trim())return;if(data.categories.includes(name.trim())){toast('同じ名前のカテゴリがあります');return;}data.categories.push(name.trim());category=name.trim();save();render();};
+$('#category-edit').onclick=()=>{const target=prompt('名前を変更する環境を入力してください。\n'+data.categories.join(' / '))?.trim();if(!target||!data.categories.includes(target))return;const name=prompt('環境名を変更',target)?.trim();if(!name||name===target)return;if(data.categories.includes(name)){toast('同じ名前のカテゴリがあります');return;}data.categories=data.categories.map(x=>x===target?name:x);for(const x of [...data.accounts,...data.routes])if(x.category===target)x.category=name;if(closedEnvironments.delete(target))closedEnvironments.add(name);save();render();};
+$('#export').onclick=()=>download('access-note-'+new Date().toLocaleDateString('sv-SE')+'.json',JSON.stringify(data,null,2),'application/json');$('#import').onclick=()=>$('#import-file').click();$('#import-file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const next=normalizeData(JSON.parse(await file.text()));validate(next);if(!confirm(`接続先 ${next.accounts.length}件・経路 ${next.routes.length}件を復元します。現在のデータを置き換えますか？`))return;data=next;category='';visible.clear();save();render();toast('復元しました');}catch(err){toast('復元できません：'+err.message);}finally{e.target.value='';}};
+render();if(!storageOK){$('#save-status').textContent='保存データを要確認';if($('#storageLabel'))$('#storageLabel').textContent='読み込みに失敗しました';}
+</script>
+</body></html>
