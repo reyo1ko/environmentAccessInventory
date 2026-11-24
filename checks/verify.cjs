@@ -99,7 +99,9 @@ assert(fakeSvg.innerHTML.includes('V 310 H 32'));
 
 assert(markup.includes('data-detail='));
 assert(!markup.includes('SamplePass'));
-assert(markup.includes('data-copy='));assert(markup.includes('アカウント'));assert(markup.includes('ログイン名'));assert(markup.includes('data-field="host"'));assert(markup.includes('data-field="ip"'));assert(markup.includes('data-field="account"'));assert(markup.includes('data-field="username"'));assert(!markup.includes('data-field="password"'));
+assert(markup.includes('data-copy='));assert(markup.includes('管理者'));assert(markup.includes('ログイン名'));assert(markup.includes('data-field="host"'));assert(markup.includes('data-field="ip"'));assert(markup.includes('data-field="username"'));assert(markup.includes('data-field="password"'));assert(markup.includes('data-eye='));assert(markup.includes('••••••••'));{const card=diagramCard(data.accounts[0],['p1']);assert(card.indexOf('data-field="ip"')<card.indexOf('data-field="username"'));assert(card.includes('class="diagram-host'));visible.add('p1:login-1');assert(diagramCard(data.accounts[0],['p1']).includes('SamplePass-01'));visible.clear();const web=diagramCard(data.accounts.find(a=>a.id==='p6'),['p6']);assert(web.includes('class="diagram-value is-url" data-copy="p6" data-field="url"'));assert(/class="diagram-sub".*data-field="ip"/.test(web));assert(web.includes('data-open="p6"'));assert(web.includes('>pc4.<wbr>example.<wbr>com<'));}
+assert.deepEqual(searchHits('192.0.2.16').map(a=>a.name),['DB3']);assert.deepEqual(searchHits('DB3').map(a=>a.name),['DB3']);assert.equal(searchHits('   ').length,0);assert(searchView('db3').includes('Enterでパスワードをコピー'));assert(searchView('db3').includes('手元のPC → PC1'));assert(searchView('not-found').includes('一致する接続先はありません'));assert(!searchView('db3').includes('SamplePass'));
+setRevealed('p1:login-1',true);assert(visible.has('p1:login-1'));assert.equal(revealTimers.size,1);setRevealed('p1:login-1',false);assert(!visible.has('p1:login-1'));assert.equal(revealTimers.size,0);
 const vendor=environmentView('環境4');
 assert(vendor.includes('data-environment="環境4" open'));
 assert(vendor.includes('environment-tone-3'));
