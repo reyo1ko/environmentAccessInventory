@@ -154,7 +154,7 @@ assert(!html.includes('SAMPLE_RESET_KEY'));
 assert(!html.includes('isOriginalSample'));
 assert(!html.includes('PrivateLocalOnly'));
 assert(!/(?:src|href)="https?:/.test(html));
-assert(!html.includes('id="search"'));
+assert(html.includes('id="search"'));
 assert(!html.includes('id="cards-toggle"'));
 assert(!html.includes('id="details-toggle"'));
 assert(!html.includes('data-rdp'));
